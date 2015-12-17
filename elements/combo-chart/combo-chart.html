@@ -1,0 +1,143 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="combo-chart">
+    <style>
+      :host {
+        overflow: hidden;
+      }
+    </style>
+	<template>
+		<db-query query-id="{{queryId}}" query-attributes="{{queryAttributes}}"  return-json="{{jsonData}}"></db-query>
+			<template is="dom-if" if="{{jsonData.data}}">
+				<script>
+					var chartObj = document.getElementById("{{id}}");
+					chartObj._renderData(chartObj.jsonData);
+				</script>
+				<google-chart
+					style="width: 100%; height: 350px"
+					type="combo"
+					options="{{options}}"
+					cols="{{columns}}"
+					rows="{{rows}}"
+					title="{{title}}">
+				</google-chart>
+			</template>
+	</template>
+
+	<script>
+		(function() {
+		  'use strict';
+		  Polymer({
+			is: 'combo-chart',
+			properties: {
+			  id: {
+				type: String,
+				value: ''
+			  },
+			  type: {
+				type: String,
+				value: ''
+			  },
+			  queryId: {
+				type: String,
+				value: '',
+				notify: true
+			  },
+			  options: {
+				type: Object,
+				value: ''
+			  },
+			  title: {
+				type: String,
+				value: '',
+				notify: true
+			  },
+			  xAxisLabel: {
+				type: String,
+				value: null,
+				notify: true
+			  },
+			  queryAttributes: {
+				type: Array,
+				value: [],
+				notify: true
+			  },
+			  jsonData: {
+				type: Array,
+				value: [],
+				notify: true
+			  },
+			  columns: {
+				type: Array,
+				value: [],
+				notify: true
+			  },
+			  rows: {
+				type: Array,
+				value: [],
+				notify: true
+			  }
+			},
+			_renderData : function(data) {
+				var count = 0;				
+				for (var key in data.data[0]) {
+					if (count == 0) {
+						this.columns.push({"label": key, "type": "string"});
+						count++;
+					}
+					else {
+						this.columns.push({"label": key, "type": "number"});
+					}
+				}
+				for (var row in data.data) {
+					//this.rows.push([count+ " stars", parseInt(star)]);
+					var tempRow = [];
+					var cont = 0;
+					for (var entry in data.data[row]) {
+						var tempField = [];
+						if (cont == 0) {
+							tempRow.push(data.data[row][entry]);
+						}
+						else {
+							tempRow.push(parseInt(data.data[row][entry]));
+						}
+						cont++;
+					}
+					this.rows.push(tempRow);
+				}
+				
+				this.options = {
+					title: null,
+					hAxis: {
+						/*showTextEvery: 5},*/
+						title: this.xAxisLabel
+					},
+					vAxes: {
+						0: {
+							/*viewWindowMode:'explicit',*/
+							/*viewWindow:{
+								max:510,
+								min:82
+							},*/
+							/*gridlines: {color: 'blue'},*/
+							title: 'Response Time (ms)'
+						},
+						1: {
+							gridlines: {color: 'black'},
+							format:"#",
+							title: 'CPU (%)'
+						}
+					},
+					series: {
+						0: {targetAxisIndex:0, type: 'bars'},
+						1:{targetAxisIndex:1},
+						   /*2:{targetAxisIndex:1},*/
+						},
+						/*colors: ["red", "green", "orange"],*/
+						/*chartArea:{left:100,top:100, width:500, height:150},*/
+					};
+			}
+		  });
+		})();
+	</script>
+</dom-module>

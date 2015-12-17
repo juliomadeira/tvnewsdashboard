@@ -1,0 +1,55 @@
+<!-- Code to create a Polymer Element using ag-table -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<script src="../../bower_components/ag-grid/dist/ag-grid.js?ignore=notused14"></script>
+<link rel="stylesheet" type="text/css" href="../../bower_components/ag-grid/dist/ag-grid.css?ignore=notused14">
+<link rel="stylesheet" type="text/css" href="../../bower_components/ag-grid/dist/theme-fresh.css?ignore=notused14">
+
+<dom-module id="test-grid">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+      
+      Polymer({
+        is: 'test-grid'
+      });
+    })();
+  </script>
+  
+  <script>
+	// this example has items declared globally. bad javascript. but keeps the example simple.
+	var columnDefs = [
+		{headerName: 'Make', field: 'make'},
+		{headerName: 'Model', field: 'model'},
+		{headerName: 'Price', field: 'price'}
+	];
+
+	var rowData = [
+		{make: 'Toyota', model: 'Celica', price: 35000},
+		{make: 'Ford', model: 'Mondeo', price: 32000},
+		{make: 'Porsche', model: 'Boxter', price: 72000}
+	];
+
+	var gridOptions = {
+		columnDefs: columnDefs,
+		rowData: rowData
+	};
+
+	// wait for the document to be loaded, otherwise
+	// ag-Grid will not find the div in the document.
+	document.addEventListener("DOMContentLoaded", function() {
+		var myAgileGrid = document.querySelector('#myGrid');
+		myAgileGrid.setGridOptions(gridOptions);
+	});
+
+  </script>
+
+</dom-module>

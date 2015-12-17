@@ -1,0 +1,154 @@
+<!-- Code to create a Polymer Element using ag-table -->
+<script src="../../scripts/data/dataprocessing.js"></script>
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<script src="../../bower_components/ag-grid/dist/ag-grid.js?ignore=notused14"></script>
+<link rel="stylesheet" type="text/css" href="../../bower_components/ag-grid/dist/ag-grid.css?ignore=notused14">
+<link rel="stylesheet" type="text/css" href="../../bower_components/ag-grid/dist/theme-fresh.css?ignore=notused14">
+
+<dom-module id="test-grid">
+  <style include="shared-styles"></style>
+  <style>
+	:host {
+		display: block;
+	}
+  </style>
+  
+  <template>
+	<db-query query-id="{{queryId}}" return-json="{{jsonData}}"
+		query-attributes="{{queryAttributes}}"></db-query>
+	
+	<template is="dom-if" if="{{jsonData.data}}">
+		<script>
+			var testGrid1 = document.getElementById("{{id}}");
+			testGrid1._returnJsonData(testGrid1.jsonData);
+		</script>	
+	</template>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+      
+      Polymer({
+        is: 'test-grid',
+		properties: {
+		  id: {
+			type: String,
+			value: ''
+		  },
+          queryId: {
+			type: String,
+			value: ''
+		  },
+		  queryAttributes: {
+			type: Array,
+			value: []
+		  },
+		  singleSelectionTemplate: {
+			type: String,
+			value: "",
+		  },
+		  multipleSelectionTemplate: {
+			type: String,
+			value: "",
+		  },
+		  columnId: {
+			type: String,
+			value: "",
+		  },
+		  jsonData: {
+			type: Array,
+			value: []
+		  }
+		},
+		_returnJsonData : function(data) {
+			var singleSelectionTemplate = this.singleSelectionTemplate;
+			var multipleSelectionTemplate = this.multipleSelectionTemplate;
+			var columnId = this.columnId;
+			if (this.id === '') {
+				this.id = this.queryId + "_Grid"
+			}
+			this.gridButton = this.id + "_gridButton";
+			this.gridDiv = this.id + "_gridDiv";
+			this.gridOptions = this.id + "_gridOptions";
+			
+			/** Build Grid **/
+			var gridButton = document.createElement("paper-button");
+			gridButton.id = this.gridButton;
+			this.appendChild(gridButton);
+			gridButton.className = "colorful x-scope paper-button-0";
+			gridButton.style.marginBottom = "10px";
+			gridButton.style.background = "#373b50";
+			gridButton.style.color = "white";
+			gridButton.textContent = "Select at least one row";
+			gridButton.disabled = true;
+			gridButton.raised = true;
+			
+			var divGrid = document.createElement("div");
+			divGrid.id = this.gridDiv;
+			this.appendChild(divGrid);
+			divGrid.className = "ag-fresh";
+			
+			var columns = [];
+			for (var key in data.data[0]) {
+				if (data.data[0].hasOwnProperty(key)) {
+					if (key == "EXECUTION_ID" || key == "report_id") {
+						columns.push({"headerName": "ID", "field": key, width: 50, suppressSizeToFit: true, suppressResize: true, checkboxSelection: true});
+					}
+					else {
+						columns.push({"headerName": key, "field": key, "filter": 'string'});
+					}
+				}
+			
+			}
+			
+			this.gridOptions = {
+				columnDefs: columns,
+				rowData: data.data,
+				enableColResize: true,
+				enableSorting: true,
+				enableFilter: true,
+				rowSelection: 'multiple',
+				suppressRowClickSelection: true,
+				/** Setting On Selection Change Event **/
+				onSelectionChanged : function(event){
+					if (event.selectedRows.length == 0) {
+						gridButton.disabled = true;
+						gridButton.textContent = "Select at least one row";		
+					}
+					else if (event.selectedRows.length == 1) {
+						gridButton.disabled = false;
+						gridButton.textContent = "View result details";
+						gridButton.addEventListener('click', function(e) {
+							page.redirect(singleSelectionTemplate + "/" +event.selectedRows[0][columnId]);
+						});	
+					}	
+					else {
+						gridButton.disabled = false;
+						gridButton.textContent = "Create comparison report";
+						var idArray = "";
+						for (var i = 0; i < event.selectedRows.length; i++) {
+							idArray = idArray + event.selectedRows[i][columnId]+ ",";
+						}
+						idArray = idArray.replace(/,([^,]*)$/,'$1'); //Remove last comma to have a valid id
+						gridButton.addEventListener('click', function(e) {
+							page.redirect(multipleSelectionTemplate+"/"+idArray);
+						});	
+					}
+				}
+				/** End - Setting On Change Event **/
+					
+			};	
+			var gridObjId = '#'+this.gridDiv;
+			agGridGlobalFunc(gridObjId, this.gridOptions);
+			this.gridOptions.api.sizeColumnsToFit();
+			window.onresize = function(){
+				//this.gridOptions.api.sizeColumnsToFit();
+				
+			};
+			/** End Build Grid **/
+		}
+      });
+    })();
+  </script>
+</dom-module>

@@ -1,0 +1,77 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="custom-feeds">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+	
+	<google-feeds feed="{{url}}" results='{{result}}'></google-feeds>
+    <template is='dom-if' if="{{result.entries}}">
+	    <script>
+			var testElement = document.getElementById("{{id}}");
+			testElement._loadEntries();
+		</script>
+	</template>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'custom-feeds',
+        properties: {
+		  id: {
+            type: String,
+            value: ''
+          },
+          url: {
+            type: String,
+            value: ''
+          },
+          numberOfEntries: {
+            type: Number,
+            value: 3
+          },
+		  entrySnippetSize: {
+            type: Number,
+            value: 300
+          }
+        },
+		_loadEntries : function(){
+			var count = this.numberOfEntries;
+			for (var key in this.result.entries) {
+				if (count != 0) {
+					var entry = document.createElement("div");
+					entry.className = "rssEntry";
+					
+					var title = document.createElement("span");
+					title.className = "paper-font-body2";
+					title.innerHTML = this.result.entries[key].title;
+					entry.appendChild(title);
+					entry.appendChild(document.createElement("br"));
+					
+					var content = document.createElement("span");
+					var entryContent = this.result.entries[key].content;
+					entryContent = entryContent.substring(0, this.entrySnippetSize + entryContent.indexOf(">"));
+					if (entryContent.length > this.entrySnippetSize) {
+						entryContent = entryContent + "...";
+					}
+					content.innerHTML = entryContent;
+					entry.appendChild(content);
+					
+					this.appendChild(entry);
+					count--;
+				}
+				else {
+					break;
+				}
+			}
+		}
+      });
+    })();
+  </script>
+
+</dom-module>

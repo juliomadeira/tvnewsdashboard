@@ -1,0 +1,99 @@
+<!-- Code to create a Polymer Element using ag-table -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="hub-chart">
+    <style>
+      :host {
+        overflow: hidden;
+      }
+    </style>
+	<template>
+		<db-query query-id="{{queryId}}" return-json="{{jsonData}}"></db-query>
+		<template is="dom-if" if="{{jsonData.data}}">
+			<script>
+				var chartObj = document.getElementById("{{id}}");
+				chartObj._renderData(chartObj.jsonData);
+			</script>
+			<google-chart
+				style="width: 100%; height: 300px"
+				type="{{type}}"
+				options="{{options}}"
+				cols="{{columns}}"
+				title="{{title}}"
+				rows="{{rows}}">
+			</google-chart>
+		</template>
+	</template>
+
+	<script>
+		(function() {
+		  'use strict';
+		  Polymer({
+			is: 'hub-chart',
+			properties: {
+			  id: {
+				type: String,
+				value: ''
+			  },
+			  type: {
+				type: String,
+				value: ''
+			  },
+			  queryId: {
+				type: String,
+				value: '',
+				notify: true
+			  },
+			  options: {
+				type: Object,
+				value: ''
+			  },
+			  title: {
+				type: String,
+				value: '',
+				notify: true
+			  },
+			  attributes: {
+				type: String,
+				value: '',
+				notify: true
+			  },
+			  jsonData: {
+				type: Array,
+				value: []
+			  }
+			},
+			_renderData : function(data) {
+				this.columns = [];
+				var count = 0;				
+				for (var key in data.data[0]) {
+					if (count == 0) {
+						this.columns.push({"label": key, "type": "string"});
+						count++;
+					}
+					else {
+						this.columns.push({"label": key, "type": "number"});
+					}
+				}
+				this.rows = [];
+				for (var row in data.data) {
+					//this.rows.push([count+ " stars", parseInt(star)]);
+					var tempRow = [];
+					var cont = 0;
+					for (var entry in data.data[row]) {
+						var tempField = [];
+						if (cont == 0) {
+							tempRow.push(data.data[row][entry]);
+						}
+						else {
+							tempRow.push(parseInt(data.data[row][entry]));
+						}
+						cont++;
+					}
+					this.rows.push(tempRow);
+				}
+			}
+		  });
+		})();
+	</script>
+</dom-module>

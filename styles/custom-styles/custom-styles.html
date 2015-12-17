@@ -1,0 +1,43 @@
+<dom-module id="custom-styles">
+	<template>
+		<style is="custom-style">
+			:host {
+				@apply(--layout-horizontal);
+				@apply(--layout-wrap);
+				width: 100%;
+				padding: 0px;
+			}
+			
+			:host ::content {
+				overflow: hidden;
+			}
+			
+			:host paper-material{
+				background-color: #FFF;
+				padding: 15px;
+				width: 98%;
+				margin: 1%;
+				overflow: hidden;
+			}
+			
+			:host paper-card{
+				background-color: #FFF;
+				padding: 15px;
+				margin: 1%;
+				overflow: hidden;
+			}
+			
+			:host .page-title {
+				margin-top: 5px;	
+			}
+			
+			:host .twoHorizontal {
+				width: 48%;
+			}
+			
+			:host .threeHorizontal {
+				width: 31.3%;
+			}
+		</style>
+	</template>
+</dom-module>
