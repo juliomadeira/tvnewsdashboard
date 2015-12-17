@@ -1,0 +1,62 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="db-query">
+	<template>	
+		<iron-ajax auto id="GetData" url="{{dataQuery}}" handle-as="json" on-response="_returnJson"></iron-ajax>
+	</template>
+  <script>
+    (function() {
+		Polymer({
+			is: 'db-query',
+			properties: {
+			  name: {
+				type: String,
+				value: ''
+			  },
+			  queryId: {
+				type: String,
+				value: '',
+				notify: true
+			  },
+			  queryAttributes: {
+				type: Array,
+				value: []
+			  },
+			  returnJson: {
+				type: Object,
+				reflectToAttribute: true,
+                notify: true
+			  }
+			},
+			ready: function() {
+				this.returnJson = [];
+				this.dataQuery = "elements/db-query/db-query.php?queryId=" + this.queryId;
+				
+				//Parse all attributes to use in the query
+				console.log(this.queryAttributes);
+				parsedAttributes = "";
+				for (var qAttribute in this.queryAttributes) {
+					for (var attrKey in this.queryAttributes[qAttribute]) {
+						parsedAttributes = parsedAttributes + attrKey 
+							+ "=" + this.queryAttributes[qAttribute][attrKey] +"&";
+					}
+				}
+				if (this.queryAttributes.length > 0) {
+					//Add & in the beginning and remove last & to have a valid id
+					parsedAttributes = "&" + parsedAttributes.replace(/&([^&]*)$/,'$1'); 
+				}
+				
+				//Add parsed attributes to dataQuery
+				this.dataQuery = this.dataQuery+parsedAttributes;
+			},
+			attached: function () {
+				this.returnJson = [];
+			},
+			_returnJson: function (data) {
+				this.returnJson = data.detail.response;
+			}
+			
+		});
+    })();
+  </script>
+
+</dom-module>
