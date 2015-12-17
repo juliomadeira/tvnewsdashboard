@@ -7,15 +7,18 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+
+@author https://github.com/feuxb
+
 -->
 
 <html lang="">
 
 <head>
   <meta charset="utf-8">
-  <meta name="description" content="IoT Performance HUB">
+  <meta name="description" content="AXB Dashboard">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IoT Performance HUB</title>
+  <title>AXB Dashboard</title>
   <!-- Place favicon.ico in the `app/` directory -->
 
   <!-- Chrome for Android theme color -->
@@ -35,7 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- Add to homescreen for Safari on iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="IoT Performance HUB">
+  <meta name="apple-mobile-web-app-title" content="AXB Dashboard">
   <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
 
   <!-- Tile icon for Win8 (144x144) -->
@@ -100,35 +103,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
 		  
 		  <paper-submenu id="1">
-		  
 			<paper-item class="menu-trigger">
 				<iron-icon icon="editor:format-list-bulleted"></iron-icon>
-				Maximo
+				Dash 1
 			</paper-item>
 			<paper-menu class="menu-content">
-			  <a class="menu-content" data-route="latestResults" href="/latestResults" on-click="onDataRouteClick">
+			  <a class="menu-content" data-route="SubDash1" href="/SubDash1" on-click="onDataRouteClick">
 				<iron-icon icon="icons:star"></iron-icon>
-				<span>Latest Results</span>
+				<span>Sub Dash 1</span>
 			  </a>
-			  <a class="menu-content" data-route="AWlatestResults" href="/AWlatestResults" on-click="onDataRouteClick">
+			  <a class="menu-content" data-route="SubDash2" href="/SubDash2" on-click="onDataRouteClick">
 				<iron-icon icon="icons:star"></iron-icon>
-				<span>Anywhere Latest Results</span>
+				<span>Sub Dash 2</span>
 			  </a>
-			  <paper-item data-route="maximo7502" href="/maximo7502" on-click="onDataRouteClick">
-				<iron-icon icon="av:play-arrow"></iron-icon>
-				7502
-			  </paper-item>
-			  <paper-item>
-				<iron-icon icon="av:play-arrow"></iron-icon>
-				7503
-			  </paper-item>
 			</paper-menu>
 
 		  </paper-submenu>
-
-          <a data-route="tririga" href="/tririga" on-click="onDataRouteClick">
-            <iron-icon icon="editor:format-list-bulleted"></iron-icon>
-            <span>TRIRIGA</span>
+          <a data-route="dash2" href="/dash2" on-click="onDataRouteClick">
+            <span>Dash 2</span>
           </a>
         </paper-menu>
       </paper-scroll-header-panel>
@@ -147,12 +139,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
-            <div class="app-name">IoT Performance HUB</div>
+            <div class="app-name">AXB Dashboard HUB</div>
           </div>
 
           <!-- Application sub title -->
           <div class="bottom bottom-container center horizontal layout">
-            <div class="bottom-title paper-font-subhead">Maximo, TRIRIGA and Anywhere Performance HUB</div>
+            <div class="bottom-title paper-font-subhead">Home Page for your Dashboard</div>
           </div>
         </paper-toolbar>
 
@@ -161,17 +153,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}" style="padding: 10px; height: 100%;">
             <section data-route="home">
               <paper-material elevation="1">
-                <a data-route="latestResults" href="/latestResults" on-click="onDataRouteClick"<h2 class="page-title">Maximo Dashboard</h2></a>
-				<p class="paper-font-body2">Maximo project Status</p>
-				<paper-card style="width: 45%; margin-right: 5%;" heading="Pie - Distribution of days in 2001Q1">
-					 <div class="card-content">
-						<hub-chart style="width: 100%;"
-							id="test_chart2"
-							query-id='getChartData_MaximoResultSummary'
-						>
-						</hub-chart>
-					</div>
-				</paper-card>
+                <a data-route="SubDash1" href="/SubDash1" on-click="onDataRouteClick"<h2 class="page-title">Dash 1</h2></a>
+				<p class="paper-font-body2">Dash 1 Details linked to Sub Dash 1</p>
 				<paper-card style="width: 45%;" heading="Column - Distribution of days in 2001Q1">
 					<div class="card-content">
 						<google-chart style="width: 100%;"
@@ -184,104 +167,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               </paper-material>
               <paper-material elevation="1">
-                <h2 class="page-title">TRIRIGA Dashboard</h2>
-				<p class="paper-font-body2">TRIRIGA project Status</p>
-              </paper-material>
-			   
-              <paper-material elevation="1"  on-click="onDataRouteClick" class="paper-font-body2">
-                <a data-route="AnywhereDash" href="/AnywhereDash" on-click="onDataRouteClick"><h2 class="page-title"  >Anywhere Dashboard</h2> </a>
-				<p class="paper-font-body2">Anywhere project Status</p>
-              </paper-material>
-            </section>
-
-            <section data-route="user-info">
-              <paper-material elevation="1">
-                <h2 class="page-title">
-                User:<span>{{params.name}}</span>
-                </h2>
-                <div>This is <span>{{params.name}}</span>'s section</div>
+                <h2 class="page-title">Dash 2</h2>
+				<p class="paper-font-body2">Dash 2 details here</p>
               </paper-material>
             </section>
 			
-			<section data-route="AnywhereDash">	
-				<script type="text/javascript" 
-					src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['treemap']}]}">
-				</script>
-				<paper-button></paper-button>	
+			<section data-route="SubDash1">	
 				<paper-material elevation="3" style="overflow: hidden;""> 
-					<h2 class="page-title">Anywhere Dash Board</h2>
+					<h2 class="page-title">Sub Dash 1 - Page Route</h2>
 				</paper-material>
 				<paper-material elevation="3" overflow: hidden;"">
-					<paper-card style="width: 45%; margin-right: 5%;" heading="The following graph is Anywhere Latest Result Test">
-						
-					</paper-card>
-					<paper-card style="width: 100%;" heading="Anywhere 4Q ">
-						 <div class="card-content">
-						<google-chart style="width: 100%;"
-							  type='column'
-							  cols='[{"label":"App Name", "type":"string"}, {"label":"Avg Response Time", "type":"number"}]'
-							  rows='[  ["WorkExecution", 3.1],["PhysicalCount", 2.7],["Inspection", 4.1],["Issues Returns", 3.8],["Asset Data Manager", 4.7] ]'>
-							</google-chart>
-						</div>
-					</paper-card>
+					Additional Info Here
 				</paper-material>
             </section>
-            <section data-route="AWlatestResults">				
+            <section data-route="SubDash2">				
 				<paper-material elevation="3" style="height: 60%; overflow: hidden;""> 
-					<h2 class="page-title">Anywhere Latest results</h2>
-					<test-grid id="testGrid3" on-selection-changed-method="AWLatestFunction" 
-					single-selection-template="/resultPage/AWLatest"
-					multiple-selection-template="/comparisonPage/AWLatest"
-					column-id="report_id" 
-					query-id='selectMobileResultList' style="width: 100%; height: 75%; overflow: hidden;"></test-grid>      
+					<h2 class="page-title">Sub Dash 2 - Page Route</h2>     
 				</paper-material>
 				<paper-material elevation="3" overflow: hidden;"">
-						 <div class="card-content">
-						<stars-stats id="id1"  appname='PVT_Inspection_View_Navigation'></stars-stats>
-						</div>
-					<!-- <paper-card style="width: 45%;" heading="Column - Distribution of days in 2001Q1">
-						 <div class="card-content">
-							<google-chart style="width: 100%;"
-							  type='column'
-							  cols='[{"label":"Month", "type":"string"}, {"label":"Days", "type":"number"}]'
-							  rows='[  ["Jan", 31],["Feb", 28],["Mar", 31]  ]'>
-							</google-chart>
-						</div>
-					</paper-card> -->
+					Additional Info Here
 				</paper-material>
             </section>
 			
 			<!-- TRIRIGA Sections -->
-			<section data-route="tririga">
+			<section data-route="dash2">
               <paper-material elevation="1">
-                <h2 class="page-title">TRIRIGA</h2>
-                <p>This is the future TRIRIGA section</p>
+                <h2 class="page-title">Dash 2 Page</h2>
+                <p>Dash 2 details</p>
               </paper-material>
             </section>
-			
-			<!-- Maximo Sections -->
-			<section data-route="latestResults" class="horizontal layout wrap">				
-				<maximo-latest-results></maximo-latest-results>
-            </section>
-			<section data-route="result-page">
-				<maximo-result result-page="{{params.page}}" execution-id="{{params.id}}"></maximo-result>
-            </section>
-			<section data-route="comparison-page">
-              <paper-material elevation="3">
-                <h2 class="page-title">
-                {{params.page}}<span> comparison result page</span>
-                </h2>
-                <div>Comparing IDs <span>{{params.idArray}}</span></div>
-              </paper-material>
-			  <paper-material elevation="3">
-                <div>Table goes here</div> 
-              </paper-material>
-			  <paper-material elevation="3">
-                <div>Graph goes here</div>
-              </paper-material>
-            </section>
-			<!-- END: Maximo Sections -->
-			
           </iron-pages>
         </div>
       </paper-scroll-header-panel>
