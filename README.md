@@ -1,4 +1,4 @@
-# axb-dashboard
+# tvnewsdashboard
 This dashboard framework is based on the Polymer Starter Kit, for an easy installation of Polymer and its required libraries.
 You can use gulp to execute this framework, but it also includes a PHP connection to MySQL databases, so if you need to use that functionality you will either need to install a PHP plugin on gulp or use Apache or other HTTP/PHP server.
 
